@@ -1,45 +1,53 @@
-﻿namespace ConsoleApp1;
-using Spectre.Console;
-
-public static class Program
+namespace ConsoleApp1
 {
-    public static void Main()
+    class Program
     {
-        int plrPoints = 0;
-        int aiPoints = 0;
-        while (true)
+        static void Main()
         {
-            AnsiConsole.MarkupLine("[red]Press any key to continue[/]");
-            Console.ReadKey();
-            Console.Clear();
-            int cislo = new Random().Next(1, 11);
-            int plrNum = AnsiConsole.Prompt<int>(new TextPrompt<int>("[lightcyan1]Guess a number from 1 to 10\n[/]"));
-            if (plrNum == cislo)
-            {
-                plrPoints++;
-                AnsiConsole.MarkupLine($"[darkolivegreen2]Ai chose: {cislo}[/]");
-            }
-            else
-            {
-                aiPoints++;
-                AnsiConsole.MarkupLine($"[darkolivegreen2]Ai chose: {cislo}[/]");
-            }
-            
-            AnsiConsole.MarkupLine($"[mistyrose1]You have: {plrPoints} points[/]");
-            AnsiConsole.MarkupLine($"[mediumpurple2_1]Ai has {aiPoints} points[/]");
-
-            if (plrPoints == 5)
-            {
+            int cash = 100;
+            while (cash > 0){
+                Console.WriteLine("Konzolová ruleta");
+                Console.WriteLine("Zmáčkni jakoukoliv klávesu pro pokračování"); Console.ReadKey();
                 Console.Clear();
-                AnsiConsole.MarkupLine("[hotpink]You won![/]");
-                break;
-            } else if (aiPoints == 5)
-            {
+                Console.WriteLine($"Tvoje peníze: {cash}");
+                Console.WriteLine("Napiš: 1. Pro červenou 2. Pro černou 3. Pro zelenou");
+                int userInput = int.Parse(Console.ReadLine());
+                if (userInput >3||userInput < 1)
+                {
+                    Console.WriteLine("Špatný input");
+                    Thread.Sleep(3000);
+                    Console.Clear();
+                    continue;
+                }
+                Console.WriteLine("Napiš částku kterou chceš vsadit");
+                int userInputInt = Convert.ToInt32(Console.ReadLine());
+                if (userInputInt > cash)
+                {
+                    Console.WriteLine("Nemáš dostatek peněz");
+                    Thread.Sleep(3000);
+                    Console.Clear();
+                    continue;
+                }
                 Console.Clear();
-                AnsiConsole.MarkupLine("[rosybrown]You lost![/]");
-                break;
+                int rng = new Random().Next(1,4);
+                Console.WriteLine("Ruleta se točí");
+                Thread.Sleep(3000);
+                if (rng == userInput)
+                {
+                    Console.WriteLine("Vyhrál jsi");
+                    int win = userInputInt * 2;
+                    cash = cash + win;
+                    Thread.Sleep(3000);
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine("Prohrál jsi");
+                    cash = cash - userInputInt;
+                    Thread.Sleep(3000);
+                    Console.Clear();
+                }
             }
         }
-        Thread.Sleep(5000);
     }
 }
